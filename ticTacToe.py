@@ -72,12 +72,12 @@ def makeBoard(move, sym):
     board[index] = sym
     return board
 
-def getMove(player):
+def getMove(name):
     '''
     ask for player input
     '''
     #get players move
-    move = raw_input(player + ', your move: ')
+    move = raw_input(name + ', your move: ')
     
     return move
 
@@ -113,9 +113,13 @@ def checkStatus(board, sym):
 #clear screen
 system('clear')
 
+#get player's names
+name1 = raw_input("Who wants to be X's? ")
+name2 = raw_input("Who wants to be O's? ")
+
 #tell players who they are
-print 'Player 1 = X'
-print 'Player 2 = O'
+print name1 + ' = X'
+print name2 + ' = O'
 print ''
 
 drawBoard()
@@ -131,26 +135,34 @@ if ans == 'n':
 
 #start game
 player = player1
+name = name1
 check = checkStatus(board, player)
 while check == 0:
-    move = getMove(player)
+    move = getMove(name)
     if validMove(move):
         board = makeBoard(move, player)
         #clear screen to draw next board
         system('clear')
+        #tell players who they are
+        print name1 + ' = X'
+        print name2 + ' = O'
+        print ''
         drawBoard()
         check = checkStatus(board, player)
         
+        #switch players if no one has won or tied
         if player == player1 and check == 0:
             player = player2
+            name = name2
         elif check == 0:
             player = player1
+            name = name1
     else:
-        print 'That cell is already taken, try again.'
+        print 'That was not a valid move, try again.'
 
 #when the game is done, print message
 if check == 1:
-    print player + ' wins!'
+    print name + ' wins!'
 #if player hasn't won then it's a tie game
 else:
     print "cat's game"
